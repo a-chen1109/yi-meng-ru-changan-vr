@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101a2b">
+  <title>一梦入长安 · 360° VR</title>
+  <link rel="stylesheet" href="vr.css?v=20261018-1">
+  <script>if (location.protocol === 'file:') document.documentElement.classList.add('local-file');</script>
+  <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
+</head>
+<body>
+  <div class="file-help" role="alert">
+    <section>
+      <p class="seal">还差一步，即可入梦</p>
+      <h1>请用预览入口打开</h1>
+      <p>直接双击 HTML 文件时，浏览器可能阻止全景图片加载。</p>
+      <p>请回到此文件夹，双击 <strong>打开长安网页.cmd</strong>。它会自动打开可正常加载场景的网页，浏览期间请保留启动窗口。</p>
+      <p>要换浏览器，请复制新打开页面地址栏里的 http://127.0.0.1:… 地址。</p>
+    </section>
+  </div>
+  <audio id="bgm" src="assets/music/视频转音频20261018002453.mp3" loop preload="auto" autoplay></audio>
+  <input id="audioFile" type="file" accept="audio/*" hidden>
+  <div id="vr-root">
+    <header class="hud top-hud">
+      <a class="brand" href="index.html" aria-label="返回生日首页">一梦入长安</a>
+      <div class="top-actions">
+        <button id="musicBtn" class="glass-btn icon-btn" type="button" aria-pressed="false" aria-label="播放音乐" title="播放音乐">♫</button>
+        <details id="settings" class="settings">
+          <summary class="glass-btn icon-btn" aria-label="体验设置" title="体验设置">⚙</summary>
+          <div class="settings-panel">
+            <span class="settings-heading">随心漫游</span>
+            <button id="qqMusicBtn" class="glass-btn" type="button">QQ 音乐</button>
+            <button id="gyroBtn" class="glass-btn" type="button">开启陀螺仪</button>
+            <button id="chooseAudioBtn" class="glass-btn" type="button">选择音乐</button>
+            <p>背景音乐会在打开网页时尝试播放，右上角音乐图标可暂停或继续。</p>
+          </div>
+        </details>
+      </div>
+    </header>
+
+    <div class="scene-shade" aria-hidden="true"></div>
+    <div class="scene-label" aria-live="polite"><span id="sceneNumber">壹 / 入梦</span><strong id="sceneTitle">入梦长安</strong><small id="sceneHint">今夜，借满城灯火，迎你入梦。</small></div>
+
+    <a-scene id="vrScene" embedded renderer="antialias: true; colorManagement: true" vr-mode-ui="enabled: true" loading-screen="enabled: false">
+      <a-assets timeout="20000">
+        <img id="pano-gate" src="assets/panoramas/scene1_gate.png" alt="入梦长安全景：月色下的长安灯火与烟花" crossorigin="anonymous">
+        <img id="pano-street" src="assets/panoramas/scene2_gate.png" alt="灯映星河全景：河岸长街与游船灯火" crossorigin="anonymous">
+        <img id="pano-pavilion" src="assets/panoramas/scene3.png" alt="月下寄愿全景：楼阁环绕的长安水岸" crossorigin="anonymous">
+        <img id="pano-lanterns" src="assets/panoramas/scene4.png" alt="烟火贺辰全景：星河烟花下的长安城" crossorigin="anonymous">
+      </a-assets>
+      <a-sky id="sky" src="#pano-gate" rotation="0 0 0" material="shader: flat"></a-sky>
+      <a-entity light="type: ambient; color: #ffe8c3; intensity: 0.75"></a-entity>
+      <a-camera id="camera" position="0 1.6 0" look-controls="magicWindowTrackingEnabled: true; touchEnabled: true" wasd-controls="enabled: false"></a-camera>
+      <a-entity id="hotspots"></a-entity>
+    </a-scene>
+
+    <div id="intro" class="overlay intro-overlay">
+      <div class="intro-card">
+        <div class="intro-kicker">长安夜游 · 生辰献礼</div>
+        <h1>一梦入长安<span>千灯贺芳辰</span></h1>
+        <p>今夜长安，为你亮灯。</p>
+        <p id="sceneError" hidden role="alert">全景引擎未能加载，请检查网络后刷新页面。</p>
+        <button id="enterVrBtn" class="gold-btn" type="button">入梦长安 ✦</button>
+        <small>戴上耳机 · 循着灯火，慢慢走</small>
+      </div>
+    </div>
+
+    <div class="bottom-hud hud">
+      <div class="scene-tabs" role="group" aria-label="切换场景">
+        <button data-scene="0" class="scene-tab active" type="button" aria-pressed="true"><span>壹</span>入梦</button>
+        <button data-scene="1" class="scene-tab" type="button" aria-pressed="false"><span>贰</span>流光</button>
+        <button data-scene="2" class="scene-tab" type="button" aria-pressed="false"><span>叁</span>寄愿</button>
+        <button data-scene="3" class="scene-tab" type="button" aria-pressed="false"><span>肆</span>贺辰</button>
+      </div>
+      <p class="gesture-tip" id="gestureTip">拖动画面环视 · 轻触光点，收下惊喜</p>
+    </div>
+
+    <div id="qqMusicModal" class="overlay modal" hidden>
+      <section class="paper-card music-card" role="dialog" aria-modal="true" aria-labelledby="qqMusicTitle">
+        <button class="close-btn" data-close="qqMusicModal" aria-label="收起音乐播放器" type="button">×</button>
+        <div class="seal">让乐声，陪你入梦</div>
+        <h2 id="qqMusicTitle">若你的世界没有暖阳</h2>
+        <p class="music-artist">侯明昊 · QQ 音乐</p>
+        <iframe id="qqMusicPlayer" title="QQ 音乐：若你的世界没有暖阳，侯明昊" allow="autoplay" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <p class="music-note">请在播放器中点击播放。收起后可继续漫游；暂停时再次打开播放器操作。</p>
+        <a class="music-link" href="https://y.qq.com/n/ryqq_v2/songDetail/607205557" target="_blank" rel="noopener noreferrer">无法播放？前往 QQ 音乐 ↗</a>
+        <button class="gold-btn" data-close="qqMusicModal" type="button">收起，继续夜游</button>
+      </section>
+    </div>
+
+    <div id="blessingModal" class="overlay modal" hidden>
+      <section class="paper-card" role="dialog" aria-modal="true" aria-labelledby="blessingTitle">
+        <button class="close-btn" data-close="blessingModal" aria-label="关闭" type="button">×</button>
+        <div class="seal">一盏灯 · 一份愿</div>
+        <h2 id="blessingTitle">岁岁欢愉</h2>
+        <p id="blessingText">愿你岁岁常欢愉，年年皆胜意。</p>
+        <button class="gold-btn" data-close="blessingModal" type="button">收下祝福</button>
+      </section>
+    </div>
+
+    <div id="poemModal" class="overlay modal" hidden>
+      <section class="paper-card poem-card" role="dialog" aria-modal="true" aria-labelledby="poemTitle">
+        <button class="close-btn" data-close="poemModal" aria-label="关闭" type="button">×</button>
+        <div class="seal">生辰寄语 · 原创</div>
+        <h2 id="poemTitle">长安寄芳辰</h2>
+        <div class="poem-lines"><p>长安灯火照良辰，</p><p>花影随风入梦深。</p><p>愿你年年多胜意，</p><p>春风万里伴此身。</p></div>
+        <p class="paper-note">愿你年年有今日，岁岁有欢愉。</p>
+        <button class="gold-btn" data-close="poemModal" type="button">把祝福收进行囊</button>
+      </section>
+    </div>
+
+    <div id="finalModal" class="overlay modal" hidden>
+      <section class="paper-card final-card" role="dialog" aria-modal="true" aria-labelledby="finalTitle">
+        <button class="close-btn" data-close="finalModal" aria-label="关闭" type="button">×</button>
+        <div class="seal">千灯为贺</div>
+        <p class="recipient" id="finalName">亲爱的你</p>
+        <h2 id="finalTitle">生辰快乐，岁岁长安</h2>
+        <p>愿你心中有热爱，身边有知己，眼前有风景，未来有期待。</p>
+        <button id="backToStreetBtn" class="gold-btn" type="button">再游长安</button>
+      </section>
+    </div>
+
+    <div id="fade" aria-hidden="true"></div>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <div id="lanternParticles" aria-hidden="true"></div>
+  </div>
+  <script src="vr.js?v=20261018-1"></script>
+</body>
+</html>
