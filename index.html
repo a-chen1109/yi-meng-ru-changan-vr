@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111a2b" />
+  <meta name="description" content="一梦入长安·千灯贺芳辰——一份以盛唐灯火、诗词与祝福写成的生日礼物。" />
+  <title>一梦入长安 · 千灯贺芳辰</title>
+  <style>
+    :root {
+      --night: #101a2b;
+      --night-soft: #1b2940;
+      --gold: #e8c98b;
+      --gold-deep: #b9874d;
+      --ivory: #f7ead4;
+      --muted: #c9c0b4;
+      --jade: #8eaa9a;
+      --wine: #8d4b51;
+      --paper: #f0dfbd;
+      --ink: #3e3027;
+      --line: rgba(232, 201, 139, .28);
+      --serif: "Songti SC", "STSong", "Noto Serif CJK SC", "SimSun", serif;
+      --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+    body {
+      margin: 0;
+      background: var(--night);
+      color: var(--ivory);
+      font-family: var(--serif);
+      overflow-x: hidden;
+    }
+    button { font: inherit; }
+    button:focus-visible, a:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+    .backdrop {
+      position: fixed; inset: 0; z-index: -3; overflow: hidden; pointer-events: none;
+      background:
+        radial-gradient(ellipse at 50% 20%, rgba(75, 91, 123, .34), transparent 44%),
+        radial-gradient(ellipse at 80% 45%, rgba(128, 83, 72, .15), transparent 35%),
+        linear-gradient(180deg, #101a2b 0%, #17243a 55%, #20273a 100%);
+    }
+    .stars, .stars::before, .stars::after {
+      position: absolute; inset: 0; content: ""; pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 8% 18%, rgba(255,245,218,.85) 50%, transparent 100%),
+        radial-gradient(1px 1px at 19% 38%, rgba(255,245,218,.7) 50%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 32% 13%, rgba(255,245,218,.8) 50%, transparent 100%),
+        radial-gradient(1px 1px at 47% 30%, rgba(255,245,218,.65) 50%, transparent 100%),
+        radial-gradient(1px 1px at 58% 12%, rgba(255,245,218,.75) 50%, transparent 100%),
+        radial-gradient(1px 1px at 73% 26%, rgba(255,245,218,.65) 50%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 91% 15%, rgba(255,245,218,.8) 50%, transparent 100%),
+        radial-gradient(1px 1px at 84% 48%, rgba(255,245,218,.6) 50%, transparent 100%),
+        radial-gradient(1px 1px at 13% 62%, rgba(255,245,218,.5) 50%, transparent 100%);
+      animation: star-breathe 5s ease-in-out infinite alternate;
+    }
+    .stars::before { transform: translateY(12px); opacity: .45; animation-delay: -2s; }
+    .stars::after { transform: translateY(-9px); opacity: .35; animation-delay: -4s; }
+    .moon {
+      position: absolute; width: clamp(68px, 9vw, 118px); aspect-ratio: 1; border-radius: 50%;
+      right: 14%; top: 12%;
+      background: radial-gradient(circle at 35% 30%, #fff4d4 0%, #f1dcae 45%, #d2b784 100%);
+      box-shadow: 0 0 34px rgba(239, 211, 153, .22), 0 0 110px rgba(239, 211, 153, .12);
+      opacity: .9;
+    }
+    .moon::after { content: ""; position: absolute; inset: 12%; border-radius: 50%; border: 1px solid rgba(140, 106, 69, .12); }
+    .haze {
+      position: absolute; left: -15%; right: -15%; bottom: 8%; height: 28%;
+      background: linear-gradient(90deg, transparent, rgba(176, 174, 174, .10), rgba(239, 210, 159, .06), transparent);
+      filter: blur(22px); transform: rotate(-4deg);
+    }
+    .cityscape { position: absolute; bottom: -1px; left: 0; width: 100%; height: min(44vh, 430px); min-height: 210px; opacity: .84; }
+    .petal-layer { position: fixed; inset: 0; z-index: 5; pointer-events: none; overflow: hidden; }
+    .petal {
+      position: absolute; top: -12vh; width: 9px; height: 14px; border-radius: 90% 10% 80% 20%;
+      background: linear-gradient(135deg, rgba(255,226,210,.95), rgba(196,116,118,.72));
+      box-shadow: 0 0 10px rgba(255,220,200,.12);
+      animation: petal-fall linear infinite;
+      opacity: .68;
+    }
+    .topbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: max(14px, env(safe-area-inset-top)) clamp(16px, 4vw, 48px) 12px;
+      background: linear-gradient(180deg, rgba(12, 20, 34, .82), rgba(12, 20, 34, .15));
+      backdrop-filter: blur(7px);
+    }
+    .brand { color: var(--gold); letter-spacing: .12em; font-size: 13px; white-space: nowrap; }
+    .top-actions { display: flex; align-items: center; gap: 8px; }
+    .tiny-button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      border: 1px solid var(--line); border-radius: 999px; padding: 9px 13px;
+      color: var(--ivory); background: rgba(20, 31, 49, .72); cursor: pointer;
+      font: 12px var(--sans); letter-spacing: .03em; transition: background .25s, border-color .25s, transform .25s;
+    }
+    .tiny-button:hover { background: rgba(87, 68, 54, .58); border-color: rgba(232,201,139,.6); transform: translateY(-1px); }
+    main { position: relative; z-index: 1; }
+    section { position: relative; min-height: 100svh; padding: 110px clamp(20px, 6vw, 90px) 80px; display: flex; align-items: center; justify-content: center; }
+    .inner { width: min(100%, 1040px); margin: 0 auto; }
+    .hero { text-align: center; min-height: 100svh; padding-top: 110px; }
+    .eyebrow { color: var(--gold); font: 11px var(--sans); letter-spacing: .34em; text-transform: uppercase; }
+    .hero h1 { margin: 24px 0 10px; font-size: clamp(44px, 8vw, 88px); line-height: 1.22; font-weight: 500; letter-spacing: .14em; text-indent: .14em; text-shadow: 0 4px 30px rgba(226, 187, 117, .18); }
+    .hero h1 span { display: block; font-size: clamp(21px, 3vw, 34px); letter-spacing: .34em; text-indent: .34em; color: #e5c994; margin-top: 16px; }
+    .hero-copy { color: #e1d6c3; font-size: clamp(14px, 1.7vw, 17px); letter-spacing: .14em; line-height: 2.1; margin: 28px auto 34px; max-width: 600px; }
+    .hero-name { color: #f2d9a6; }
+    .primary-button {
+      position: relative; display: inline-flex; justify-content: center; align-items: center; gap: 12px;
+      min-width: 190px; padding: 15px 28px; color: #30251d; border: 1px solid #f4d9a2;
+      border-radius: 2px; background: linear-gradient(135deg, #f3dfb6, #c99b5f);
+      box-shadow: 0 0 28px rgba(218, 175, 104, .16); cursor: pointer; letter-spacing: .18em;
+      transition: transform .25s, box-shadow .25s, filter .25s;
+    }
+    .primary-button:hover { transform: translateY(-3px); box-shadow: 0 8px 35px rgba(218,175,104,.26); filter: brightness(1.05); }
+    .secondary-button {
+      border: 1px solid var(--line); background: rgba(19, 31, 49, .6); color: var(--ivory);
+      padding: 12px 20px; cursor: pointer; letter-spacing: .12em; transition: background .2s;
+    }
+    .secondary-button:hover { background: rgba(125, 91, 62, .28); }
+    .scroll-cue { position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%); color: rgba(239,224,194,.66); font: 10px var(--sans); letter-spacing: .22em; display: flex; flex-direction: column; align-items: center; gap: 9px; }
+    .scroll-cue::after { content: ""; width: 1px; height: 28px; background: linear-gradient(var(--gold), transparent); animation: cue 1.8s ease-in-out infinite; }
+    .section-heading { text-align: center; margin-bottom: 32px; }
+    .section-heading .kicker { color: var(--gold); letter-spacing: .3em; font-size: 11px; }
+    .section-heading h2 { font-weight: 500; font-size: clamp(30px, 5vw, 48px); letter-spacing: .12em; margin: 12px 0; }
+    .section-heading p { color: var(--muted); line-height: 1.9; font-size: 14px; margin: 0 auto; max-width: 620px; }
+    .city-section { background: linear-gradient(180deg, rgba(12,20,34,.06), rgba(13,21,35,.36)); }
+    .lantern-panel { border: 1px solid rgba(232,201,139,.18); background: rgba(14,24,40,.45); backdrop-filter: blur(7px); padding: clamp(18px, 4vw, 34px); }
+    .lantern-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(10px, 2.2vw, 24px); }
+    .lantern-choice { color: var(--ivory); border: 0; background: transparent; display: flex; flex-direction: column; align-items: center; gap: 14px; cursor: pointer; padding: 12px 4px; min-width: 0; }
+    .lantern-choice:focus-visible { outline-offset: 0; border-radius: 8px; }
+    .lantern { position: relative; width: 54px; height: 77px; border-radius: 48% 48% 42% 42%; display: block; background: linear-gradient(90deg, #8d3d3b, #e3a75e 38%, #b44f43 68%, #793238); box-shadow: 0 0 18px rgba(234,160,79,.24), inset 0 0 13px rgba(255,221,150,.4); transition: transform .3s, box-shadow .3s; }
+    .lantern::before { content: ""; position: absolute; top: -5px; left: 14px; right: 14px; height: 7px; border-radius: 2px; background: #d4ad69; box-shadow: 0 77px 0 -1px #b68b4d; }
+    .lantern::after { content: ""; position: absolute; left: 50%; top: 100%; height: 17px; width: 1px; background: #d6a65d; box-shadow: -4px 10px 0 -0.3px #d6a65d, 4px 10px 0 -0.3px #d6a65d; }
+    .lantern-choice:nth-child(2n) .lantern { background: linear-gradient(90deg, #7e473b, #f0c77c 42%, #bd744b 72%, #764039); }
+    .lantern-choice:nth-child(3n) .lantern { background: linear-gradient(90deg, #3c6258, #c5b777 42%, #628d79 72%, #31544d); }
+    .lantern-choice:hover .lantern, .lantern-choice:focus-visible .lantern { transform: translateY(-7px) rotate(-2deg); box-shadow: 0 0 30px rgba(246,194,111,.48), inset 0 0 13px rgba(255,236,184,.55); }
+    .lantern-label { font-size: 13px; letter-spacing: .08em; color: #f1dfc1; }
+    .lantern-caption { text-align: center; margin: 25px 0 0; color: #bcb6ae; font-size: 12px; letter-spacing: .06em; }
+    .poem-section { background: linear-gradient(180deg, rgba(20,29,44,.18), rgba(20,28,42,.42)); }
+    .poem-layout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(28px, 7vw, 90px); align-items: center; }
+    .poem-note { color: var(--muted); line-height: 2.2; font-size: 15px; }
+    .poem-note .small-gold { color: var(--gold); font-size: 11px; letter-spacing: .28em; }
+    .paper-scroll { position: relative; color: var(--ink); padding: 36px clamp(24px, 4vw, 50px); background: linear-gradient(110deg, #d7c39b, #f6e8c8 18%, #ead6ad 83%, #cbb487); box-shadow: 0 20px 55px rgba(0,0,0,.22); border-top: 7px solid #9d7948; border-bottom: 7px solid #9d7948; text-align: center; }
+    .paper-scroll::before, .paper-scroll::after { content: ""; position: absolute; left: -9px; right: -9px; height: 7px; border-radius: 4px; background: linear-gradient(#e2c991, #8c683d); }
+    .paper-scroll::before { top: -9px; } .paper-scroll::after { bottom: -9px; }
+    .paper-scroll .seal { font-size: 10px; letter-spacing: .3em; color: #8b5940; }
+    .paper-scroll h3 { font-size: 25px; font-weight: 500; letter-spacing: .22em; margin: 13px 0 24px; }
+    .poem-lines { opacity: .18; filter: blur(2px); transition: opacity .8s, filter .8s; }
+    .poem-lines.revealed { opacity: 1; filter: blur(0); }
+    .poem-lines p { font-size: clamp(17px, 2.4vw, 22px); letter-spacing: .12em; line-height: 1.9; margin: 5px 0; }
+    .poem-lines p:nth-child(1) { transition-delay: .1s; } .poem-lines p:nth-child(2) { transition-delay: .35s; } .poem-lines p:nth-child(3) { transition-delay: .6s; } .poem-lines p:nth-child(4) { transition-delay: .85s; }
+    .poem-actions { margin-top: 24px; display: flex; justify-content: center; }
+    .paper-footer { margin-top: 24px; color: #85684b; font-size: 11px; letter-spacing: .12em; }
+    .finale-section { text-align: center; overflow: hidden; }
+    .finale-section .inner { position: relative; z-index: 2; }
+    .finale-copy { color: #d7c9b2; line-height: 2.1; font-size: 15px; margin: 20px auto 30px; max-width: 540px; }
+    .final-wish { opacity: 0; transform: translateY(14px); transition: opacity 1.2s, transform 1.2s; margin: 34px auto 0; }
+    .final-wish.show { opacity: 1; transform: translateY(0); }
+    .final-wish h2 { font-size: clamp(30px, 6vw, 54px); letter-spacing: .18em; font-weight: 500; color: #f1d69d; text-shadow: 0 0 32px rgba(234,194,120,.25); margin: 0 0 18px; }
+    .final-wish p { color: #e6d7c0; line-height: 2; letter-spacing: .08em; }
+    .floating-lantern { position: fixed; z-index: 8; bottom: -100px; width: 18px; height: 28px; border-radius: 48%; pointer-events: none; background: linear-gradient(90deg, #b56a48, #ffe0a0, #c77c4b); box-shadow: 0 0 22px rgba(255,203,116,.7); animation: rise var(--duration, 8s) ease-in forwards; }
+    .floating-lantern::after { content: ""; position: absolute; bottom: -8px; left: 50%; height: 8px; width: 1px; background: #d9b66f; }
+    .footer { text-align: center; color: rgba(226,210,183,.58); font: 10px var(--sans); letter-spacing: .2em; padding: 0 20px 34px; }
+    .dialog-backdrop { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 20px; background: rgba(7,12,22,.72); backdrop-filter: blur(8px); }
+    .dialog-backdrop[hidden] { display: none; }
+    .blessing-dialog { position: relative; width: min(100%, 420px); padding: 38px 30px 30px; border: 1px solid rgba(232,201,139,.5); background: linear-gradient(145deg, rgba(35,44,60,.98), rgba(17,27,43,.98)); box-shadow: 0 20px 80px rgba(0,0,0,.4); text-align: center; }
+    .dialog-close { position: absolute; top: 10px; right: 12px; color: #dfd0b5; border: 0; background: transparent; cursor: pointer; font-size: 23px; }
+    .dialog-mark { color: var(--gold); font-size: 11px; letter-spacing: .28em; }
+    .blessing-dialog h3 { font-size: 25px; font-weight: 500; letter-spacing: .12em; margin: 18px 0; }
+    .blessing-dialog p { color: #d9cfbf; font-size: 15px; line-height: 2.1; margin: 0; }
+    .toast { position: fixed; z-index: 60; left: 50%; bottom: max(24px, env(safe-area-inset-bottom)); transform: translate(-50%, 20px); opacity: 0; pointer-events: none; padding: 12px 17px; max-width: calc(100% - 32px); border: 1px solid var(--line); background: rgba(15,24,39,.95); color: #f0dfc1; font: 12px var(--sans); text-align: center; transition: opacity .3s, transform .3s; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    @keyframes star-breathe { from { opacity: .45; } to { opacity: .95; } }
+    @keyframes petal-fall { 0% { transform: translate3d(0,-5vh,0) rotate(0deg); } 100% { transform: translate3d(var(--drift, 70px),115vh,0) rotate(500deg); } }
+    @keyframes cue { 0%,100% { transform: scaleY(.65); transform-origin: top; opacity: .4; } 50% { transform: scaleY(1); opacity: 1; } }
+    @keyframes rise { 0% { transform: translateY(0) translateX(0) rotate(-2deg); opacity: 0; } 12% { opacity: .95; } 100% { transform: translateY(-125vh) translateX(var(--drift, 25px)) rotate(8deg); opacity: 0; } }
+    @media (max-width: 720px) {
+      .topbar { padding-left: 14px; padding-right: 14px; }
+      .brand { font-size: 11px; letter-spacing: .06em; }
+      .tiny-button { padding: 8px 10px; font-size: 11px; }
+      .tiny-button .long-label { display: none; }
+      section { padding: 100px 20px 72px; }
+      .hero h1 { letter-spacing: .08em; text-indent: .08em; }
+      .hero h1 span { letter-spacing: .2em; text-indent: .2em; }
+      .moon { right: 8%; top: 12%; }
+      .cityscape { height: 31vh; min-height: 180px; }
+      .lantern-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 22px; }
+      .lantern { transform: scale(.9); }
+      .poem-layout { grid-template-columns: 1fr; gap: 25px; }
+      .poem-note { text-align: center; }
+      .paper-scroll { padding: 28px 18px; }
+      .section-heading { margin-bottom: 24px; }
+    }
+    @media (max-width: 380px) {
+      .brand { max-width: 125px; white-space: normal; line-height: 1.4; }
+      .lantern-panel { padding: 12px; }
+      .lantern-label { font-size: 12px; }
+      .hero-copy { letter-spacing: .08em; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="backdrop" aria-hidden="true">
+    <div class="stars"></div><div class="moon"></div><div class="haze"></div>
+    <svg class="cityscape" viewBox="0 0 1440 500" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="distant" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a5364" stop-opacity=".36"/><stop offset="1" stop-color="#182338" stop-opacity=".9"/></linearGradient>
+        <linearGradient id="near" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#202d40"/><stop offset="1" stop-color="#0b1424"/></linearGradient>
+        <linearGradient id="window" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3c77d" stop-opacity=".9"/><stop offset="1" stop-color="#d58c51" stop-opacity=".1"/></linearGradient>
+      </defs>
+      <path d="M0 250 Q120 180 240 245 T500 235 T760 250 T1040 215 T1440 235 V500 H0Z" fill="url(#distant)"/>
+      <path d="M0 330 L70 310 L70 270 L110 270 L110 240 L150 270 L150 315 L205 315 L205 285 L245 285 L245 250 L285 285 L285 345 L360 345 L360 295 L400 295 L400 260 L445 295 L445 345 L520 345 L520 285 L560 285 L560 255 L605 285 L605 350 L680 350 L680 300 L720 300 L720 265 L765 300 L765 350 L845 350 L845 290 L890 290 L890 255 L935 290 L935 345 L1000 345 L1000 300 L1040 300 L1040 260 L1085 300 L1085 345 L1160 345 L1160 285 L1200 285 L1200 250 L1245 285 L1245 340 L1310 340 L1310 295 L1350 295 L1350 260 L1390 295 L1390 350 L1440 350 V500 H0Z" fill="url(#near)"/>
+      <g fill="#101a2b" stroke="#5a4c43" stroke-opacity=".65" stroke-width="3">
+        <path d="M110 500 V340 H260 V500Z M90 340 L185 285 L280 340Z M125 342 L185 310 L245 342Z"/>
+        <path d="M480 500 V360 H650 V500Z M455 360 L565 290 L675 360Z M492 362 L565 322 L638 362Z"/>
+        <path d="M840 500 V330 H1030 V500Z M810 330 L935 250 L1060 330Z M845 332 L935 286 L1025 332Z"/>
+        <path d="M1160 500 V370 H1320 V500Z M1135 370 L1240 300 L1345 370Z M1170 372 L1240 330 L1310 372Z"/>
+      </g>
+      <g fill="url(#window)" opacity=".85">
+        <rect x="145" y="380" width="10" height="25" rx="2"/><rect x="178" y="380" width="10" height="25" rx="2"/><rect x="210" y="380" width="10" height="25" rx="2"/>
+        <rect x="530" y="395" width="11" height="24" rx="2"/><rect x="565" y="395" width="11" height="24" rx="2"/><rect x="600" y="395" width="11" height="24" rx="2"/>
+        <rect x="890" y="375" width="12" height="26" rx="2"/><rect x="928" y="375" width="12" height="26" rx="2"/><rect x="966" y="375" width="12" height="26" rx="2"/>
+        <rect x="1200" y="408" width="10" height="23" rx="2"/><rect x="1235" y="408" width="10" height="23" rx="2"/><rect x="1270" y="408" width="10" height="23" rx="2"/>
+      </g>
+      <path d="M0 445 Q170 420 330 450 T670 445 T1020 452 T1440 430 V500 H0Z" fill="#0b1424" opacity=".72"/>
+    </svg>
+  </div>
+  <div class="petal-layer" id="petalLayer" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand">一梦入长安 · 千灯贺芳辰</div>
+    <div class="top-actions">
+      <button class="tiny-button" id="musicToggle" type="button" aria-pressed="false" title="播放或暂停背景音乐">♫ <span id="musicLabel">开启音乐</span></button>
+      <button class="tiny-button" id="chooseMusic" type="button" title="选择本地音乐文件">＋ <span class="long-label">选择音乐</span></button>
+    </div>
+  </header>
+
+  <audio id="bgm" loop preload="auto" autoplay src="assets/music/视频转音频20261018002453.mp3"></audio>
+  <input class="visually-hidden" id="musicFile" type="file" accept="audio/*" aria-label="选择背景音乐文件" />
+
+  <main>
+    <section class="hero" id="home">
+      <div class="inner">
+        <div class="eyebrow">A LITTLE DREAM FOR YOUR SPECIAL DAY</div>
+        <h1>一梦入长安<span>千灯贺芳辰</span></h1>
+        <p class="hero-copy">今夜星河为序，长安灯火为礼。<br />愿 <span class="hero-name" id="heroName">亲爱的你</span> 此后岁岁欢愉，所行皆坦途。</p>
+        <div class="hero-actions" style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;align-items:center;">
+          <button class="primary-button" id="enterButton" type="button">浏览生日祝福 <span aria-hidden="true">✦</span></button>
+          <a class="primary-button" href="vr.html" style="text-decoration:none;background:linear-gradient(135deg,#f8e9c7,#d8b16f);">进入 360° 长安 <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <div class="scroll-cue" aria-hidden="true">循光而行</div>
+    </section>
+
+    <section class="city-section" id="city">
+      <div class="inner">
+        <div class="section-heading">
+          <div class="kicker">LANTERNS OF CHANG'AN</div>
+          <h2>灯火长安</h2>
+          <p>长街灯暖，花影摇曳。点亮一盏花灯，收下一份只属于你的祝愿。</p>
+        </div>
+        <div class="lantern-panel">
+          <div class="lantern-grid" id="lanternGrid">
+            <button class="lantern-choice" type="button" data-blessing="0"><span class="lantern" aria-hidden="true"></span><span class="lantern-label">岁岁欢愉</span></button>
+            <button class="lantern-choice" type="button" data-blessing="1"><span class="lantern" aria-hidden="true"></span><span class="lantern-label">所遇皆暖</span></button>
+            <button class="lantern-choice" type="button" data-blessing="2"><span class="lantern" aria-hidden="true"></span><span class="lantern-label">前路生花</span></button>
+            <button class="lantern-choice" type="button" data-blessing="3"><span class="lantern" aria-hidden="true"></span><span class="lantern-label">自在如风</span></button>
+            <button class="lantern-choice" type="button" data-blessing="4"><span class="lantern" aria-hidden="true"></span><span class="lantern-label">心有星河</span></button>
+          </div>
+          <p class="lantern-caption">轻触花灯 · 收下一份祝福</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="poem-section" id="poem">
+      <div class="inner poem-layout">
+        <div class="poem-note">
+          <div class="small-gold">A POEM FOR YOU</div>
+          <h2 style="font-size:clamp(29px,4vw,43px);font-weight:500;letter-spacing:.12em;margin:14px 0 20px;">诗寄生辰</h2>
+          <p>借一卷素笺，写下没有说尽的祝福。愿你在人间烟火里自在，在漫长岁月中明亮，亦始终被温柔以待。</p>
+          <p>点开诗笺，让这几句小诗，替我陪你走过新一岁的春夏秋冬。</p>
+        </div>
+        <div class="paper-scroll">
+          <div class="seal">生辰寄语 · 原创</div>
+          <h3>长安寄芳辰</h3>
+          <div class="poem-lines" id="poemLines" aria-live="polite">
+            <p>长安灯火照良辰，</p>
+            <p>花影随风入梦深。</p>
+            <p>愿你年年多胜意，</p>
+            <p>春风万里伴此身。</p>
+          </div>
+          <div class="poem-actions"><button class="secondary-button" id="revealPoem" type="button">展 开 诗 笺</button></div>
+          <div class="paper-footer">愿所念皆如愿 · 所行皆坦途</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="finale-section" id="finale">
+      <div class="inner">
+        <div class="section-heading">
+          <div class="kicker">A THOUSAND WISHES</div>
+          <h2>千灯为贺</h2>
+          <p>把心愿交给晚风，让灯火替我说一声：生日快乐。</p>
+        </div>
+        <p class="finale-copy">如果此刻可以许一个愿望，愿你心中有热爱，身边有知己，眼前有风景，未来有期待。</p>
+        <button class="primary-button" id="releaseButton" type="button">放灯许愿 <span aria-hidden="true">✧</span></button>
+        <div class="final-wish" id="finalWish" aria-live="polite">
+          <h2>生辰快乐，岁岁长安</h2>
+          <p><span id="finalName">亲爱的你</span>，愿你年年有今日，岁岁有欢愉。<br />愿每一个平凡的日子，都有值得期待的暖阳。</p>
+          <button class="secondary-button" id="replayButton" type="button">再入长安</button>
+        </div>
+      </div>
+    </section>
+    <div class="footer">愿你此生明朗 · 山河为证 · 长乐未央</div>
+  </main>
+
+  <div class="dialog-backdrop" id="blessingBackdrop" hidden>
+    <div class="blessing-dialog" role="dialog" aria-modal="true" aria-labelledby="blessingTitle" aria-describedby="blessingText">
+      <button class="dialog-close" id="closeBlessing" type="button" aria-label="关闭祝福">×</button>
+      <div class="dialog-mark">一盏灯 · 一份愿</div>
+      <h3 id="blessingTitle">岁岁欢愉</h3>
+      <p id="blessingText">愿你岁岁常欢愉，万事皆胜意。</p>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // ====== 个性化设置：把这里的“亲爱的你”改成朋友的名字即可 ======
+    const friendName = "亲爱的你";
+    document.getElementById("heroName").textContent = friendName;
+    document.getElementById("finalName").textContent = friendName;
+
+    const bgm = document.getElementById("bgm");
+    const musicToggle = document.getElementById("musicToggle");
+    const musicLabel = document.getElementById("musicLabel");
+    const musicFile = document.getElementById("musicFile");
+    const chooseMusic = document.getElementById("chooseMusic");
+    const toast = document.getElementById("toast");
+    let toastTimer;
+    let localAudioUrl = null;
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 3800);
+    }
+
+    async function playMusic(showError = true) {
+      try {
+        await bgm.play();
+        musicToggle.setAttribute("aria-pressed", "true");
+        musicLabel.textContent = "暂停音乐";
+        return true;
+      } catch (error) {
+        musicToggle.setAttribute("aria-pressed", "false");
+        musicLabel.textContent = "开启音乐";
+        if (showError) showToast("浏览器暂未允许播放，请再次点击音乐按钮。");
+        return false;
+      }
+    }
+
+    musicToggle.addEventListener("click", async () => {
+      if (bgm.paused) await playMusic();
+      else {
+        bgm.pause();
+        musicToggle.setAttribute("aria-pressed", "false");
+        musicLabel.textContent = "开启音乐";
+      }
+    });
+
+    chooseMusic.addEventListener("click", () => musicFile.click());
+    musicFile.addEventListener("change", async (event) => {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      if (localAudioUrl) URL.revokeObjectURL(localAudioUrl);
+      localAudioUrl = URL.createObjectURL(file);
+      bgm.src = localAudioUrl;
+      await playMusic();
+      showToast("已载入本地音乐。此方式只对当前设备有效。");
+    });
+
+    document.getElementById("enterButton").addEventListener("click", async () => {
+      await playMusic();
+      document.getElementById("city").scrollIntoView({ behavior: "smooth" });
+    });
+
+    const blessings = [
+      { title: "岁岁欢愉", text: "愿你岁岁常欢愉，年年皆胜意。平凡的日子有小小欢喜，漫长的旅途有温柔相伴。" },
+      { title: "所遇皆暖", text: "愿你所遇之人皆真诚，所行之路皆有光。有人懂你的言外之意，也有人珍惜你的明媚与善良。" },
+      { title: "前路生花", text: "愿你奔赴热爱时有勇气，面对未知时有底气。走过的每一步，都算数；期待的每一程，都值得。" },
+      { title: "自在如风", text: "愿你自在如风，明朗如月。不必迎合所有目光，只管成为自己喜欢的模样。" },
+      { title: "心有星河", text: "愿你心中常有星河，眼里总有惊喜。即使偶尔行经长夜，也始终相信天会亮，花会开。" }
+    ];
+    const backdrop = document.getElementById("blessingBackdrop");
+    const blessingTitle = document.getElementById("blessingTitle");
+    const blessingText = document.getElementById("blessingText");
+    let lastLanternButton = null;
+
+    document.querySelectorAll(".lantern-choice").forEach((button) => {
+      button.addEventListener("click", () => {
+        const blessing = blessings[Number(button.dataset.blessing)];
+        lastLanternButton = button;
+        blessingTitle.textContent = blessing.title;
+        blessingText.textContent = blessing.text;
+        backdrop.hidden = false;
+        document.getElementById("closeBlessing").focus();
+      });
+    });
+
+    function closeBlessing() {
+      backdrop.hidden = true;
+      if (lastLanternButton) lastLanternButton.focus();
+    }
+    document.getElementById("closeBlessing").addEventListener("click", closeBlessing);
+    backdrop.addEventListener("click", (event) => { if (event.target === backdrop) closeBlessing(); });
+    document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !backdrop.hidden) closeBlessing(); });
+
+    document.getElementById("revealPoem").addEventListener("click", () => {
+      const lines = document.getElementById("poemLines");
+      lines.classList.add("revealed");
+      document.getElementById("revealPoem").textContent = "诗 笺 已 展";
+      showToast("愿这几句诗，陪你走进新一岁的好时光。");
+    });
+
+    function releaseLanterns() {
+      const count = window.innerWidth < 600 ? 18 : 32;
+      for (let i = 0; i < count; i++) {
+        const lantern = document.createElement("span");
+        lantern.className = "floating-lantern";
+        lantern.style.left = (3 + Math.random() * 94) + "vw";
+        lantern.style.setProperty("--duration", (6 + Math.random() * 5) + "s");
+        lantern.style.setProperty("--drift", (Math.random() * 120 - 60) + "px");
+        lantern.style.animationDelay = (Math.random() * 1.7) + "s";
+        lantern.style.transform = "scale(" + (0.65 + Math.random() * .8) + ")";
+        document.body.appendChild(lantern);
+        setTimeout(() => lantern.remove(), 12500);
+      }
+      document.getElementById("finalWish").classList.add("show");
+      document.getElementById("releaseButton").textContent = "愿望已随灯而去 ✧";
+      document.getElementById("releaseButton").disabled = true;
+      showToast("愿所有美好，都在未来与你相逢。");
+    }
+    document.getElementById("releaseButton").addEventListener("click", releaseLanterns);
+
+    document.getElementById("replayButton").addEventListener("click", () => {
+      document.getElementById("finalWish").classList.remove("show");
+      document.getElementById("releaseButton").disabled = false;
+      document.getElementById("releaseButton").innerHTML = '放灯许愿 <span aria-hidden="true">✧</span>';
+      document.querySelectorAll(".floating-lantern").forEach((item) => item.remove());
+      document.getElementById("home").scrollIntoView({ behavior: "smooth" });
+    });
+
+    // 轻量花瓣：尊重系统的“减少动态效果”设置。
+    const petalLayer = document.getElementById("petalLayer");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduceMotion) {
+      for (let i = 0; i < 13; i++) {
+        const petal = document.createElement("span");
+        petal.className = "petal";
+        petal.style.left = (Math.random() * 100) + "%";
+        petal.style.setProperty("--drift", (Math.random() * 150 - 75) + "px");
+        petal.style.animationDuration = (13 + Math.random() * 13) + "s";
+        petal.style.animationDelay = (-Math.random() * 24) + "s";
+        petal.style.transform = "scale(" + (.55 + Math.random() * .8) + ")";
+        petalLayer.appendChild(petal);
+      }
+    }
+
+    bgm.addEventListener("play", () => {
+      musicToggle.setAttribute("aria-pressed", "true");
+      musicLabel.textContent = "暂停音乐";
+    });
+    bgm.addEventListener("pause", () => {
+      musicToggle.setAttribute("aria-pressed", "false");
+      musicLabel.textContent = "开启音乐";
+    });
+
+    // 打开首页时立即尝试播放；若浏览器拦截，在第一次普通交互时自动重试。
+    (async () => {
+      const started = await playMusic(false);
+      if (started) return;
+      const resumeMusic = async (event) => {
+        if (event.target.closest && event.target.closest("#musicToggle")) return;
+        const resumed = await playMusic(false);
+        if (resumed) {
+          document.removeEventListener("click", resumeMusic, true);
+          document.removeEventListener("keydown", resumeMusic, true);
+        }
+      };
+      document.addEventListener("click", resumeMusic, true);
+      document.addEventListener("keydown", resumeMusic, true);
+    })();
+  </script>
+</body>
+</html>
