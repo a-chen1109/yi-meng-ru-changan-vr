@@ -1,0 +1,145 @@
+ :root{--night:#101a2b;--night2:#1b2940;--gold:#e8c98b;--gold2:#bd8c4c;--ivory:#f7ead4;--muted:#d4c7b2;--ink:#3e3027;--paper:#f0dfbd;--line:rgba(232,201,139,.32)}
+*{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden;background:var(--night);color:var(--ivory);font-family:"Songti SC","STSong","Noto Serif CJK SC",serif}button,a{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}#vr-root{position:fixed;inset:0;background:radial-gradient(ellipse at 50% 15%,#263650,#101a2b 65%)}a-scene{position:absolute!important;inset:0;width:100%;height:100%;z-index:1}a-scene canvas{touch-action:none}.hud{position:absolute;z-index:10;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:none}.hud>*{pointer-events:auto}.top-hud{top:0;padding:max(12px,env(safe-area-inset-top)) clamp(12px,3vw,32px) 12px;background:linear-gradient(180deg,rgba(8,14,25,.88),rgba(8,14,25,.05))}.brand{color:var(--gold);text-decoration:none;letter-spacing:.08em;font-size:14px;white-space:nowrap}.brand span{color:#f5e5c6}.top-actions{display:flex;gap:7px;align-items:center}.glass-btn{color:var(--ivory);border:1px solid var(--line);background:rgba(16,26,43,.78);backdrop-filter:blur(10px);border-radius:999px;padding:9px 12px;font-size:12px}.glass-btn:active,.scene-tab:active{transform:scale(.97)}.scene-label{position:absolute;z-index:5;top:82px;left:50%;transform:translateX(-50%);text-align:center;pointer-events:none;text-shadow:0 2px 12px #07101e;display:flex;flex-direction:column;gap:5px;max-width:90vw}.scene-label span{font:10px sans-serif;letter-spacing:.3em;color:var(--gold)}.scene-label strong{font-size:clamp(23px,4vw,38px);font-weight:500;letter-spacing:.16em}.scene-label small{font:12px sans-serif;color:#f1dfc1;letter-spacing:.06em}.bottom-hud{bottom:0;padding:18px 14px max(14px,env(safe-area-inset-bottom));flex-direction:column;justify-content:center;background:linear-gradient(0deg,rgba(8,14,25,.82),rgba(8,14,25,0))}.scene-tabs{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}.scene-tab{border:1px solid var(--line);border-radius:999px;padding:10px 17px;color:#f3e3c6;background:rgba(16,26,43,.76);font-size:13px;backdrop-filter:blur(8px)}.scene-tab.active{color:#34251a;background:linear-gradient(135deg,#f4e1b8,#c99a5b);border-color:#f2d6a0}.gesture-tip{margin:7px 0 0;font:11px sans-serif;letter-spacing:.04em;color:rgba(245,229,198,.82);text-align:center}.overlay{position:absolute;z-index:30;inset:0;display:grid;place-items:center;padding:22px;background:rgba(5,10,19,.55);backdrop-filter:blur(8px)}.overlay[hidden]{display:none}.intro-card,.paper-card{width:min(100%,520px);text-align:center;padding:clamp(26px,5vw,48px);border:1px solid rgba(219,178,106,.6);box-shadow:0 22px 90px rgba(0,0,0,.42);background:linear-gradient(145deg,rgba(30,42,61,.97),rgba(13,23,39,.98));position:relative}.intro-card:before,.paper-card:before{content:"";position:absolute;inset:8px;border:1px solid rgba(232,201,139,.14);pointer-events:none}.intro-kicker,.seal{color:var(--gold);font:10px sans-serif;letter-spacing:.28em}.intro-card h1{font-size:clamp(34px,8vw,60px);font-weight:500;letter-spacing:.12em;line-height:1.25;margin:24px 0 18px;color:#f1d69d;text-shadow:0 0 30px rgba(232,201,139,.2)}.intro-card h1 span{display:block;font-size:.55em;letter-spacing:.24em;margin-top:12px}.intro-card p{color:#e4d5bd;line-height:2.1;letter-spacing:.08em;font-size:14px;margin:0 0 24px}.intro-card small{display:block;margin-top:18px;color:#c7b99f;font:11px sans-serif}.gold-btn{position:relative;z-index:1;border:1px solid #f3d8a0;background:linear-gradient(135deg,#f3dfb6,#c99b5f);color:#34251a;padding:13px 24px;letter-spacing:.12em;box-shadow:0 0 25px rgba(218,175,104,.14);border-radius:2px}.modal{z-index:40}.paper-card{color:#f7ead4}.paper-card h2{font-weight:500;letter-spacing:.12em;font-size:clamp(25px,5vw,36px);margin:18px 0}.paper-card p{color:#e3d5c0;line-height:2;letter-spacing:.04em;font-size:15px}.close-btn{position:absolute;z-index:2;right:16px;top:10px;border:0;background:transparent;color:#f4dfb8;font-size:29px}.poem-card{background:linear-gradient(110deg,#e0cda8,#f6e8c8 20%,#ead6ad 82%,#cbb487);color:var(--ink);border-color:#b78d55}.poem-card:before{border-color:rgba(119,82,42,.25)}.poem-card .seal{color:#875a3e}.poem-card h2{color:#593d2e}.poem-lines p{margin:7px 0;color:#49372c;font-size:clamp(18px,4vw,23px);letter-spacing:.15em}.paper-note{color:#7d6145!important;font-size:12px!important}.poem-card .close-btn{color:#654631}.poem-card .gold-btn{margin-top:10px}.final-card h2{color:#f1d69d}.final-card p{max-width:360px;margin:0 auto 24px}#fade{position:absolute;inset:0;background:#09111f;z-index:25;opacity:0;pointer-events:none;transition:opacity .35s}#fade.active{opacity:1}#toast{position:absolute;z-index:60;left:50%;bottom:112px;transform:translate(-50%,12px);opacity:0;transition:all .25s;max-width:calc(100% - 32px);background:rgba(10,18,31,.95);border:1px solid var(--line);color:#f5e5c6;padding:11px 16px;text-align:center;font:12px sans-serif;pointer-events:none}#toast.show{opacity:1;transform:translate(-50%,0)}#lanternParticles{position:absolute;inset:0;z-index:20;pointer-events:none;overflow:hidden}.float-lantern{position:absolute;bottom:-55px;width:13px;height:22px;border-radius:45%;background:linear-gradient(90deg,#b66a44,#ffe0a0,#c77c4b);box-shadow:0 0 18px rgba(255,203,116,.7);animation:rise var(--dur,7s) ease-in forwards}.float-lantern:after{content:"";position:absolute;left:50%;bottom:-7px;height:7px;border-left:1px solid #e4c17a}@keyframes rise{to{transform:translate(var(--drift),-115vh) rotate(8deg);opacity:0}}@media(max-width:620px){.top-hud{align-items:flex-start}.brand{font-size:11px;white-space:normal;max-width:100px;line-height:1.6}.top-actions{gap:5px;flex-wrap:wrap;justify-content:flex-end}.glass-btn{padding:8px 9px;font-size:11px}.scene-label{top:95px}.scene-label small{font-size:11px}.bottom-hud{padding-bottom:max(12px,env(safe-area-inset-bottom))}.scene-tab{padding:9px 13px;font-size:12px}.gesture-tip{max-width:95vw;font-size:10px}.intro-card{padding:32px 20px}.overlay{padding:14px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+/* 长安夜游：墨蓝衬底、柔金点缀，留出中央全景。 */
+:root {
+  --night: #101827;
+  --gold: #d8bd87;
+  --ivory: #f5ebdd;
+  --muted: #c4beb3;
+  --line: rgba(216,189,135,.24);
+  --ui-font: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+}
+button, .glass-btn, .gesture-tip, .scene-label small, .paper-card p,
+.intro-card p, .intro-card small { font-family: var(--ui-font); }
+.scene-shade {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(180deg,rgba(7,14,25,.72),rgba(7,14,25,.22) 21%,transparent 40%,transparent 64%,rgba(7,14,25,.7)),
+    linear-gradient(90deg,rgba(7,14,25,.4),transparent 48%);
+}
+.top-hud {
+  padding: max(22px,env(safe-area-inset-top)) clamp(22px,4vw,56px) 16px;
+  background: none;
+}
+.brand { font-size: 17px; letter-spacing: .2em; color: var(--ivory); }
+.top-actions { gap: 10px; }
+.glass-btn {
+  background: rgba(16,24,39,.7); border-color: var(--line);
+  color: var(--ivory); box-shadow: 0 4px 16px rgba(0,0,0,.1);
+}
+.icon-btn { width: 44px; height: 44px; padding: 0; display: grid; place-items: center; font-size: 20px; }
+.glass-btn:hover { background: rgba(35,46,61,.95); border-color: var(--gold); }
+#musicBtn[aria-pressed="true"] { color: var(--gold); border-color: var(--gold); }
+.settings { position: relative; }
+.settings summary { cursor: pointer; list-style: none; }
+.settings summary::-webkit-details-marker { display: none; }
+.settings-panel {
+  position: absolute; right: 0; top: 56px; width: 224px; padding: 20px;
+  display: grid; gap: 12px; border: 1px solid var(--line); border-radius: 16px;
+  background: rgba(16,24,39,.96); backdrop-filter: blur(18px);
+  box-shadow: 0 16px 48px rgba(0,0,0,.3); font-family: var(--ui-font);
+}
+.settings-heading { color: var(--gold); font-size: 12px; letter-spacing: .18em; }
+.settings-panel .glass-btn { border-radius: 8px; min-height: 44px; }
+.settings-panel p { margin: 0; font-size: 11px; color: var(--muted); line-height: 1.9; }
+.scene-label {
+  top: max(116px,calc(env(safe-area-inset-top) + 96px));
+  left: clamp(22px,4vw,56px); transform: none; text-align: left;
+  align-items: flex-start; gap: 13px; max-width: calc(100vw - 44px);
+  text-shadow: 0 2px 18px rgba(0,0,0,.9);
+}
+.scene-label span { font: 11px var(--ui-font); letter-spacing: .26em; color: var(--gold); }
+.scene-label strong { font-size: clamp(25px,3vw,34px); letter-spacing: .18em; color: var(--ivory); }
+.scene-label small { font-size: 12px; line-height: 1.8; color: #e0d9ce; letter-spacing: .08em; }
+.bottom-hud {
+  padding: 28px 18px max(28px,env(safe-area-inset-bottom));
+  background: none; gap: 0;
+}
+.scene-tabs {
+  flex-wrap: nowrap; gap: 5px; padding: 6px; border: 1px solid var(--line);
+  background: rgba(16,24,39,.86); backdrop-filter: blur(18px);
+  border-radius: 18px; box-shadow: 0 12px 40px rgba(0,0,0,.22);
+}
+.scene-tab {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 46px; min-width: 100px; padding: 12px 18px;
+  background: transparent; border: 1px solid transparent; border-radius: 12px;
+  color: #dfd7ca; font-size: 13px; letter-spacing: .12em; backdrop-filter: none;
+  transition: background .25s,color .25s;
+}
+.scene-tab span { font-family: "Songti SC", "STSong", serif; font-size: 11px; opacity: .6; }
+.scene-tab:hover { background: rgba(216,189,135,.1); }
+.scene-tab.active { color: #29251f; background: linear-gradient(120deg,#e2cfaa,#cdb281); border-color: #e0cba5; }
+.gesture-tip {
+  position: absolute; bottom: calc(100% - 14px); margin: 0; padding: 8px 14px;
+  color: var(--ivory); background: rgba(16,24,39,.8); border-radius: 20px;
+  font-size: 11px; line-height: 1.7; opacity: 0; transition: opacity 1s;
+  pointer-events: none;
+}
+.gesture-tip.visible { opacity: 1; }
+body:not(.dream-entered) .top-hud,
+body:not(.dream-entered) .scene-label,
+body:not(.dream-entered) .bottom-hud { visibility: hidden; }
+.overlay { overflow-y: auto; background: rgba(7,14,25,.4); backdrop-filter: blur(5px); }
+.intro-overlay { background: linear-gradient(180deg,rgba(7,14,25,.32),rgba(7,14,25,.65)); backdrop-filter: blur(2px); }
+.intro-card, .paper-card {
+  margin: auto; border-color: var(--line); border-radius: 6px;
+  background: linear-gradient(145deg,rgba(23,34,50,.95),rgba(12,21,35,.97));
+  box-shadow: 0 24px 80px rgba(0,0,0,.3);
+}
+.intro-card { width: min(100%,480px); padding: clamp(36px,6vw,60px) 24px; }
+.intro-card:before, .paper-card:before { inset: 10px; border-color: rgba(216,189,135,.12); }
+.intro-kicker, .seal { color: var(--gold); font: 11px var(--ui-font); letter-spacing: .3em; }
+.intro-card h1 { color: #e5d4b4; font-size: clamp(34px,7vw,52px); margin: 32px 0 26px; text-shadow: none; }
+.intro-card h1 span { font-size: .47em; margin-top: 20px; letter-spacing: .32em; }
+.intro-card p { color: var(--ivory); margin-bottom: 32px; font-size: 14px; }
+.intro-card small { color: var(--muted); font-size: 11px; margin-top: 24px; }
+.gold-btn {
+  min-height: 46px; border: 1px solid #dfcba5; border-radius: 6px;
+  background: linear-gradient(120deg,#e2cfaa,#cdb281); color: #29251f;
+  box-shadow: 0 4px 20px rgba(0,0,0,.12); font-size: 13px;
+}
+.paper-card h2, .final-card h2 { color: #e5d4b4; }
+.paper-card p { color: #e0d9ce; font-size: 14px; }
+.paper-card .recipient { color: var(--gold); font-size: 13px; letter-spacing: .2em; margin: 26px auto 0; }
+.close-btn { width: 44px; height: 44px; top: 8px; right: 8px; color: var(--muted); }
+.poem-card { background: linear-gradient(110deg,#dacdb4,#f1e8d5 22%,#e7dbc2 82%,#cbbd9f); }
+.poem-card h2 { color: #593d2e; }
+.poem-lines p { font-family: "Songti SC", "STSong", serif; color: #49372c; font-size: clamp(18px,4vw,23px); }
+#toast { bottom: 112px; border-radius: 12px; color: var(--ivory); font-family: var(--ui-font); line-height: 1.8; }
+@media(max-width:620px) {
+  .top-hud { align-items: center; padding: max(16px,env(safe-area-inset-top)) 20px 12px; }
+  .brand { font-size: 15px; max-width: none; white-space: nowrap; }
+  .icon-btn { width: 44px; height: 44px; padding: 0; font-size: 19px; }
+  .top-actions { gap: 8px; flex-wrap: nowrap; }
+  .scene-label { left: 22px; top: max(102px,calc(env(safe-area-inset-top) + 84px)); gap: 10px; }
+  .scene-label strong { font-size: 27px; }
+  .scene-label small { font-size: 11px; letter-spacing: .04em; }
+  .bottom-hud { padding: 22px 14px max(28px,env(safe-area-inset-bottom)); }
+  .scene-tabs { width: min(100%,380px); gap: 3px; padding: 5px; border-radius: 16px; }
+  .scene-tab { flex: 1; min-width: 0; gap: 7px; padding: 12px 8px; font-size: 12px; }
+  .scene-tab span { font-size: 10px; }
+  .gesture-tip { max-width: calc(100vw - 28px); font-size: 10px; }
+  .intro-card { padding: 42px 22px; }
+}
+@media(max-height:500px) {
+  .scene-label { top: 88px; gap: 6px; }
+  .scene-label strong { font-size: 23px; }
+  .bottom-hud { padding-bottom: max(12px,env(safe-area-inset-bottom)); }
+  .intro-card { padding: 28px 24px; }
+  .intro-card h1 { margin: 18px 0; font-size: 32px; }
+  .intro-card h1 span { margin-top: 10px; }
+  .intro-card p { margin-bottom: 18px; }
+  .intro-card small { margin-top: 16px; }
+}
+.music-card { max-width: 480px; }
+.music-card h2 { font-size: clamp(21px,5vw,28px); letter-spacing: .04em; line-height: 1.5; }
+.music-card .music-artist { color: var(--muted); margin: -4px 0 20px; font-size: 12px; }
+#qqMusicPlayer { display: block; width: 100%; height: 100px; border: 0; border-radius: 10px; background: #fff; }
+.music-card .music-note { font-size: 12px; line-height: 1.9; color: var(--muted); text-align: left; margin: 18px 0 12px; }
+.music-link { display: block; color: var(--gold); font: 12px var(--ui-font); line-height: 1.8; margin-bottom: 22px; text-underline-offset: 4px; }
+.file-help { display: none; }
+.local-file .file-help { display: grid; position: fixed; inset: 0; z-index: 100; place-items: center; padding: 24px; background: #101827; overflow-y: auto; }
+.file-help section { width: min(100%,540px); padding: 28px; border: 1px solid var(--line); border-radius: 14px; }
+.file-help h1 { color: var(--gold); font-size: 27px; font-weight: 500; }
+.file-help p { color: var(--ivory); font: 14px/2 var(--ui-font); }
+.file-help strong { color: var(--gold); }
